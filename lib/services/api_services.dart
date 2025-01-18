@@ -6,7 +6,7 @@ import '../models/new_books.dart';
 
 class ApiService {
   static Future<List<Buku>> fetchBooks() async {
-    final response = await http.get(Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/books/'));
+    final response = await http.get(Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/books/'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       final List<dynamic> booksList = responseBody['books'];
@@ -18,7 +18,7 @@ class ApiService {
 
   static Future<void> addBook(Buku book) async {
     final response = await http.post(
-      Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/books/'),
+      Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/books/'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -36,7 +36,7 @@ class ApiService {
 
   static Future<void> deleteBook(int bookId) async {
     final response = await http.delete(
-      Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/books/$bookId/'),
+      Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/books/$bookId/'),
     );
 
     if (response.statusCode == 204) {
@@ -48,9 +48,8 @@ class ApiService {
     }
   }
 
-
   static Future<List<Penerbit>> fetchPublishers() async {
-    final response = await http.get(Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/publishers'));
+    final response = await http.get(Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/publishers'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       final List<dynamic> publishersList = responseBody['publishers'];
@@ -60,8 +59,38 @@ class ApiService {
     }
   }
 
+  static Future<void> addPublisher(Penerbit publisher) async {
+    final response = await http.post(
+      Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/publishers/'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'nama': publisher.nama,
+        'alamat': publisher.alamat,
+        'nohp': publisher.nohp,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add publisher');
+    }
+  }
+
+  static Future<void> deletePublisher(int publisherId) async {
+    final response = await http.delete(
+      Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/publishers/$publisherId/'),
+    );
+
+    if (response.statusCode == 204) {
+      print('Book deleted successfully');
+    } else {
+      throw Exception('Failed to delete publisher. Status: ${response.statusCode}');
+    }
+  }
+
   static Future<List<BukuMasuk>> fetchNewBooks() async {
-    final response = await http.get(Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/new-books/'));
+    final response = await http.get(Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/new-books/'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
@@ -74,6 +103,24 @@ class ApiService {
       }
     } else {
       throw Exception('Failed to load new books');
+    }
+  }
+
+  static Future<void> addNewBook(BukuMasuk newBook) async {
+    final response = await http.post(
+      Uri.parse('https://8c58-36-68-8-254.ngrok-free.app/new-books/'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'idbuku': newBook.idbuku,
+        'idpenerbit': newBook.idpenerbit,
+        'jumlah': newBook.jumlah,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add Buku Baru');
     }
   }
 }
