@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:uas_mobile_testing/pages/new_books_page.dart';
+import 'package:uas_mobile_testing/pages/publishers_page.dart';
+import 'pages/books_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,13 +23,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1; // Default to the middle button (Books)
+  int _selectedIndex = 1;
 
-  // List of widget pages for navigation
   final List<Widget> _pages = [
-    Center(child: Text('Penerbit', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Buku', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Buku Baru Datang', style: TextStyle(fontSize: 24))),
+    PublishersPage(),
+    BooksPage(),
+    NewBooksPage()
   ];
 
   void _onItemTapped(int index) {
@@ -39,12 +41,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'SiPerpus',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+        title: Text('SiPerpus'),
+        centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),
       body: _pages[_selectedIndex],
@@ -65,9 +63,9 @@ class _HomePageState extends State<HomePage> {
             label: 'Baru Datang',
           ),
         ],
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[850],
         type: BottomNavigationBarType.fixed,
       ),
     );
