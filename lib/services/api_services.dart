@@ -16,6 +16,39 @@ class ApiService {
     }
   }
 
+  static Future<void> addBook(Buku book) async {
+    final response = await http.post(
+      Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/books/'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'nama': book.nama,
+        'harga': book.harga,
+        'stok': book.stok,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add book');
+    }
+  }
+
+  static Future<void> deleteBook(int bookId) async {
+    final response = await http.delete(
+      Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/books/$bookId/'),
+    );
+
+    if (response.statusCode == 204) {
+      // Successfully deleted
+      print('Book deleted successfully');
+    } else {
+      // Handle errors
+      throw Exception('Failed to delete book. Status: ${response.statusCode}');
+    }
+  }
+
+
   static Future<List<Penerbit>> fetchPublishers() async {
     final response = await http.get(Uri.parse('https://e7d6-36-68-8-254.ngrok-free.app/publishers'));
     if (response.statusCode == 200) {
